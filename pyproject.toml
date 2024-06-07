@@ -26,8 +26,7 @@ classifiers = [
 ]
 dependencies = [
   "click",
-  "langchain",
-  "langchain-openai",
+  "openai",
 ]
 
 [project.urls]
