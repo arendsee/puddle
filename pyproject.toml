@@ -27,6 +27,8 @@ classifiers = [
 dependencies = [
   "click",
   "openai",
+  "pydantic",
+  "chromadb",
 ]
 
 [project.urls]

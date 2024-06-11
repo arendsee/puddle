@@ -7,9 +7,11 @@
 
 My personal AI
 
-## T## Installation
+## Configuration
 
-Don't
+```
+puddle init
+```
 
 ## License
 
