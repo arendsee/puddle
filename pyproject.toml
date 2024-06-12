@@ -29,6 +29,7 @@ dependencies = [
   "openai",
   "pydantic",
   "chromadb",
+  "termcolor",
 ]
 
 [project.urls]
