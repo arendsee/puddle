@@ -1,3 +1,4 @@
-import puddle.models.openai as model_openai
+from puddle.models.openai import configure_ask, configure_dalle
 
-ask = model_openai.configure_ask()
+ask = configure_ask()
+dalle = configure_dalle()

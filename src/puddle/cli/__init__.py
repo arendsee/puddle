@@ -14,6 +14,16 @@ def puddle():
 def ask_cmd(prompt):
     print(llm.ask(prompt))
 
+@puddle.command(name = "dalle")
+@click.argument("prompt", type=str)
+@click.option("--model", default="dall-e-3", type=str, help="Model ['dall-e-2', 'dall-e-3']")
+@click.option("--quality", default="standard", type=str, help="Quality ['standard', 'hd']")
+@click.option("--size", default="1024x1024", type=str, help="Size (e.g., '1024x1024')")
+@click.option("--user", default="George Washington", type=str, help="User name")
+@click.option("--basename", default="dalle", type=str, help="Base output filename")
+def dalle_cmd(prompt, **kwargs):
+    print(llm.dalle(prompt, **kwargs))
+
 def filterblank(txt):
     lines = [x.rstrip() for x in txt.split("\n")]
     return "\n".join([x for x in lines if len(x) > 0])

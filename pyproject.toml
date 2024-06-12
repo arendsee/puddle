@@ -30,6 +30,7 @@ dependencies = [
   "pydantic",
   "chromadb",
   "termcolor",
+  "pillow",
 ]
 
 [project.urls]
