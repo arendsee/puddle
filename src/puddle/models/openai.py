@@ -33,6 +33,22 @@ def configure_ask(model = "gpt-3.5-turbo"):
 
     return ask
 
+def write_img(response, basename):
+    # dalle-e-3 rewrites the prompt
+    revised_prompt = response.data[0].revised_prompt
+    print(f"Revised prompt: {revised_prompt}")
+
+    images_data = [image.model_dump()["b64_json"] for image in response.data]
+
+    # Dump data to png
+    i = 1
+    for data in images_data:
+        image = Image.open(BytesIO(base64.b64decode(data)))
+        while os.path.exists(f"{basename}_{i}.png"):
+              i += 1
+        image.save(f"{basename}_{i}.png")
+        i += 1
+
 def configure_dalle():
 
     client = OpenAI()
@@ -43,7 +59,6 @@ def configure_dalle():
         size = "1024x1024",
         quality = "standard",
         user="George Washington",
-        basename = "dalle"
     ):
 
         params = {
@@ -59,19 +74,6 @@ def configure_dalle():
 
         response = client.images.generate(**params)
 
-        # dalle-e-3 rewrites the prompt
-        revised_prompt = response.data[0].revised_prompt
-        print(f"Revised prompt: {revised_prompt}")
-
-        images_data = [image.model_dump()["b64_json"] for image in response.data]
-
-        # Dump data to png
-        i = 1
-        for data in images_data:
-            image = Image.open(BytesIO(base64.b64decode(data)))
-            while os.path.exists(f"{basename}_{i}.png"):
-                  i += 1
-            i += 1
-            image.save(f"{basename}_{i}.png")
+        return response
 
     return dalle

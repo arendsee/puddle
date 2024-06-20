@@ -1,6 +1,7 @@
 import click
 from puddle.__about__ import __version__
 import puddle.llm as llm
+import puddle.models.openai as openai
 import puddle.collection as pc
 from termcolor import colored
 
@@ -21,8 +22,15 @@ def ask_cmd(prompt):
 @click.option("--size", default="1024x1024", type=str, help="Size (e.g., '1024x1024')")
 @click.option("--user", default="George Washington", type=str, help="User name")
 @click.option("--basename", default="dalle", type=str, help="Base output filename")
-def dalle_cmd(prompt, **kwargs):
-    print(llm.dalle(prompt, **kwargs))
+def dalle_cmd(prompt, model, quality, size, user, basename):
+    response = llm.dalle(
+        prompt,
+        model=model,
+        quality=quality,
+        size=size,
+        user=user
+    )
+    openai.write_img(response, basename)
 
 def filterblank(txt):
     lines = [x.rstrip() for x in txt.split("\n")]

@@ -5,3 +5,4 @@
 from puddle.init import init 
 from puddle.config import InitConfig, Config, load_config
 from puddle.collection import update, opendb, opencol, query
+from puddle.models.openai import *
