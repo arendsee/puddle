@@ -28,7 +28,6 @@ dependencies = [
   "click",
   "openai",
   "pydantic",
-  "chromadb",
   "termcolor",
   "pillow",
 ]
