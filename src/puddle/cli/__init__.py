@@ -3,6 +3,7 @@ from puddle.__about__ import __version__
 import puddle.llm as llm
 import puddle.models.openai as openai
 import puddle.collection as pc
+import os
 from termcolor import colored
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]}, invoke_without_command=False)
@@ -10,10 +11,37 @@ from termcolor import colored
 def puddle():
     pass
 
+def get_prompt_txt(prompt):
+    if prompt == "":
+        prompt_txt = input()
+    elif os.path.isfile(prompt) and os.access(prompt, os.R_OK):
+        with open(prompt, 'r') as file:
+            prompt_txt = file.read()
+    else:
+        prompt_txt = prompt
+
+    return prompt_txt
+
 @puddle.command(name = "ask")
-@click.argument("prompt", type=str)
+@click.option("--prompt", default="", type=str)
 def ask_cmd(prompt):
-    print(llm.ask(prompt))
+
+    prompt_txt = get_prompt_txt(prompt)
+
+    response = llm.ask(prompt_txt)
+
+    folder_path = os.path.expanduser("~") + "/.puddle"
+    history_file = folder_path + "/history"
+
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    with open(history_file, "a") as fh:
+        print("<prompt>" + prompt_txt + "</prompt>", file=fh)
+        print("<response>" + response + "</response>", file=fh)
+
+    print(response)
+
 
 @puddle.command(name = "dalle")
 @click.argument("prompt", type=str)
